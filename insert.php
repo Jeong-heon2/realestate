@@ -20,12 +20,12 @@ $appKey = file_get_contents("keys/appkey", true)
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<?=$appKey?>&libraries=services"></script>
 <script type="text/javascript" src="js/insert_map.js"></script>
 
-<form>
+<form action="process_insert.php" method="post">
     <div id="form-div">
         <form class="form" id="form1">
-            이름
+            제목
             <p class="name">
-                <input name="name" type="text" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" placeholder="매물 이름" id="name" />
+                <input name="title" type="text" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" placeholder="매물 이름" id="name" />
             </p>
             매물 번호
             <p class="name">
@@ -95,22 +95,22 @@ $appKey = file_get_contents("keys/appkey", true)
             <p>
                 <label>
                     <select name="direction" style="font-size: 20px">
-                        <option value="남향">남향</option>
-                        <option value="북향">북향</option>
-                        <option value="북향">서향</option>
-                        <option value="북향">동향</option>
+                        <option value="3">남향</option>
+                        <option value="4">북향</option>
+                        <option value="2">서향</option>
+                        <option value="1">동향</option>
                     </select>
                     <select name="deal_type" style="font-size: 20px">
-                        <option value="매매">매매</option>
-                        <option value="전세">전세</option>
-                        <option value="월세">월세</option>
+                        <option value="3">매매</option>
+                        <option value="2">전세</option>
+                        <option value="1">월세</option>
                     </select>
                     <select name="type" style="font-size: 20px">
-                        <option value="아파트">아파트</option>
-                        <option value="주택">주택</option>
-                        <option value="원룸">원룸</option>
-                        <option value="오피스텔">오피스텔</option>
-                        <option value="건물">건물</option>
+                        <option value="1">아파트</option>
+                        <option value="2">주택</option>
+                        <option value="3">원룸</option>
+                        <option value="4">오피스텔</option>
+                        <option value="5">건물</option>
                     </select>
                 </label>
 
@@ -125,7 +125,7 @@ $appKey = file_get_contents("keys/appkey", true)
             </p>
 
             <div class="submit">
-                <a href="#none" class="btn">SEND</a>
+                <input type="submit" class="btn" value="SEND">
             </div>
         </form>
     </div>
