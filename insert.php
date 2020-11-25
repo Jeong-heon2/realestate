@@ -20,7 +20,7 @@ $appKey = file_get_contents("keys/appkey", true)
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<?=$appKey?>&libraries=services"></script>
 <script type="text/javascript" src="js/insert_map.js"></script>
 
-<form action="process_insert.php" method="post">
+<form action="process_insert.php" method="post" enctype="multipart/form-data">
     <div id="form-div">
         <form class="form" id="form1">
             제목
@@ -123,6 +123,11 @@ $appKey = file_get_contents("keys/appkey", true)
             <p class="text">
                 <textarea name="memo" class="validate[required,length[6,300]] feedback-input" id="comment" placeholder="memo"></textarea>
             </p>
+            이미지
+            <p>
+                <input type="file" name="upload[]" accept="image/*" style="font-size: 25px" multiple>
+            </p>
+
 
             <div class="submit">
                 <input type="submit" class="btn" value="SEND">
