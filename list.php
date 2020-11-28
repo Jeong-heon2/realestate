@@ -5,119 +5,144 @@ $conn = mysqli_connect(
     'my7073319',
     'realestates',
     3307);
-$query1 = "SELECT * from house where deal_type = 1";
-$query2 = "SELECT * from house where deal_type = 2";
-$query3 = "SELECT * from house where deal_type = 3";
+$query = "SELECT * from house";
+$result = mysqli_query($conn,$query);
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="zxx">
 <head>
-    <meta charset="utf-8">
-    <title>매물 리스트</title>
-    <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-                
-            //검색하고 나서 결과를 보여줄때 검색 조건을 그대로 노출
-            if("${dealType}" == 1){ //dealType 이 월세 일 경우 셋팅
-                //라디오 버튼 값으로 선택
-                $('input:radio[name="dealType"][value=1]').prop('checked', true);
-                $( "#jeonse" ).hide();
-                $( "#sell" ).hide();
-                $( "#monthly" ).show();
-            }
-            
-            //라디오 버튼 변경시 이벤트
-            $("input[name='dealType']:radio").change(function () {
-                     //라디오 버튼 값을 가져온다.
-                    var dealType = this.value;
-                                    
-                    if(dealType == 1){
-                        $( "#jeonse" ).hide();
-                        $( "#sell" ).hide();
-                        $( "#monthly" ).show();
-                    }else if(dealType == 2){
-                        $( "#jeonse" ).show();
-                        $( "#sell" ).hide();
-                        $( "#monthly" ).hide();
-                    }else if(dealType == 3) {
-                        $( "#jeonse" ).hide();
-                        $( "#sell" ).show();
-                        $( "#monthly" ).hide();
-                    }                         
-                });
-            });
-    </script>
+	<title>매물 리스트</title>
+	<meta charset="UTF-8">
+	
+	<!-- Favicon -->
+	<link href="img/favicon.ico" rel="shortcut icon"/>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap" rel="stylesheet">
+
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="css/magnific-popup.css"/>
+	<link rel="stylesheet" href="css/slicknav.min.css"/>
+	<link rel="stylesheet" href="css/owl.carousel.min.css"/>
+
+	<!-- Main Stylesheets -->
+	<link rel="stylesheet" href="css/style.css"/>
+
+
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
 </head>
 <body>
-    <h1>매물 리스트</h1>
-    <input type="radio" name="dealType" value=1 checked>월세
-    <input type="radio" name="dealType" value=2>전세
-    <input type="radio" name="dealType" value=3>매도
-    <br>
-    <br>
-    <span id="monthly">
-        월세 매물 : 
-        <dl>
-        <?php
-            $result1 = mysqli_query($conn,$query1);
-            while($row = mysqli_fetch_array($result1)){
-                ?>
-                <span id="item">
-                    <dt>매물 번호 : <?=$row['id']?></dt>
-                    <dt>타입 : <?=$row['type']?></dt>
-                    <dt>주소 : <?=$row['address']?></dt>
-                    <dd>월세가 : <?=$row['price']?></dd>
-                    <dd>보증금 : <?=$row['deposit']?></dd>
-                    <dd>면적 m^2 : <?=$row['area_m2']?></dd>
-                    <dd>면적 평 : <?=$row['area_py']?></dd>
-                    <dd>설명 : <?=$row['explanation']?></dd>
-                </span>
-                <?php
-            }
-        ?>
-        </dl>
-    </span>
-    <span id="jeonse" style="display:none">
-        전세 매물 : 
-        <dl>
-        <?php
-            $result2 = mysqli_query($conn,$query2);
-            while($row = mysqli_fetch_array($result2)){
-                ?>
-                <span id="item">
-                    <dt>매물 번호 : <?=$row['id']?></dt>
-                    <dt>타입 : <?=$row['type']?></dt>
-                    <dt>주소 : <?=$row['address']?></dt>
-                    <dd>전세가 : <?=$row['price']?></dd>
-                    <dd>면적 m^2 : <?=$row['area_m2']?></dd>
-                    <dd>면적 평 : <?=$row['area_py']?></dd>
-                    <dd>설명 : <?=$row['explanation']?></dd>
-                </span>
-                <?php
-            }
-        ?>
-        </dl>
-    </span>
-    <span id="sell" style="display:none">
-        매도 매물 : 
-        <?php
-            $result3 = mysqli_query($conn,$query3);
-            while($row = mysqli_fetch_array($result3)){
-                ?>
-                <span id="item">
-                    <dt>매물 번호 : <?=$row['id']?></dt>
-                    <dt>타입 : <?=$row['type']?></dt>
-                    <dt>주소 : <?=$row['address']?></dt>
-                    <dd>매매가 : <?=$row['price']?></dd>
-                    <dd>면적 m^2 : <?=$row['area_m2']?></dd>
-                    <dd>면적 평 : <?=$row['area_py']?></dd>
-                    <dd>설명 : <?=$row['explanation']?></dd>
-                </span>
-                <?php
-            }
-        ?>
-    </span>
-</body>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Header section  -->
+	<header class="header-section hs-bd">
+		<a href="list.php" class="site-logo"><img src="img/logo.png" alt="logo"></a>
+		<div class="header-controls">
+			<button class="nav-switch-btn"><i class="fa fa-bars"></i></button>
+			<button class="search-btn"><i class="fa fa-search"></i></button>
+		</div>
+		<ul class="main-menu">
+			<li><a href="list.php">Home</a></li>
+			<li><a href="list.php">About the Artist </a></li>
+			<li>
+				<a href="list.php">Portfolio</a>
+				<ul class="sub-menu">
+					<li><a href="list.php">Portfolio 1</a></li>
+					<li><a href="list.php">Portfolio 2</a></li>
+					<li><a href="list.php">Portfolio 3</a></li>
+				</ul>
+			</li>
+			<li><a href="list.php">Blog</a></li>
+			<li><a href="list.php">Elements</a></li>
+			<li><a href="list.php">Contact</a></li>
+			<li class="search-mobile">
+				<button class="search-btn"><i class="fa fa-search"></i></button>
+			</li>
+		</ul>
+	</header>
+	<div class="clearfix"></div>
+	<!-- Header section end  -->
+
+	<!-- Portfolio section  -->
+	<div class="portfolio-section">
+		<ul class="portfolio-filter controls text-center">
+			<li class="control" data-filter="all">All</li>
+			<li class="control" data-filter=".monthly">월세</li>
+			<li class="control" data-filter=".jeonse">전세</li>
+			<li class="control" data-filter=".sell">매매</li>
+		</ul>                                                           
+		<div class="row portfolio-gallery m-0">
+			<?php
+			while($row = mysqli_fetch_array($result)){
+				$image_query = "SELECT image FROM image WHERE id=".$row['id'];
+                $image_result = mysqli_query($conn,$image_query);
+                $image_first = mysqli_fetch_array($image_result);
+				switch($row['deal_type']){
+					case 1:
+						?>
+						<div class="mix col-xl-2 col-md-3 col-sm-4 col-6 p-0 monthly">
+							<?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $image_first['image'] ).'" class="portfolio-item img-popup set-bg"/>'; ?>
+							<?php echo $row['title'];?>
+						</div>
+						<?php
+					break;
+					case 2:
+						?>
+						<div class="mix col-xl-2 col-md-3 col-sm-4 col-6 p-0 jeonse">
+							<?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $image_first['image'] ).'" class="portfolio-item img-popup set-bg"/>'; ?>
+							<?php echo $row['title'];?>
+						</div>
+						<?php
+					break;
+					case 3:
+						?>
+						<div class="mix col-xl-2 col-md-3 col-sm-4 col-6 p-0 sell">
+							<?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $image_first['image'] ).'" class="portfolio-item img-popup set-bg"/>'; ?>
+							<?php echo $row['title'];?>
+						</div>
+						<?php
+					break;
+				}
+			}	
+			?>
+		</div>
+	</div>
+	<!-- Portfolio section end  -->
+	
+	
+
+	<!-- Search model -->
+	<div class="search-model">
+		<div class="h-100 d-flex align-items-center justify-content-center">
+			<div class="search-close-switch">+</div>
+			<form class="search-model-form">
+				<input type="text" id="search-input" placeholder="Search here.....">
+			</form>
+		</div>
+	</div>
+	<!-- Search model end -->
+
+	<!--====== Javascripts & Jquery ======-->
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.slicknav.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/circle-progress.min.js"></script>
+	<script src="js/mixitup.min.js"></script>
+	<script src="js/instafeed.min.js"></script>
+	<script src="js/masonry.pkgd.min.js"></script>
+	<script src="js/main.js"></script>
+
+	</body>
 </html>
