@@ -53,7 +53,7 @@ function upload(){
 
                 /*** our sql query ***/
                 $stmt = $dbh->prepare("INSERT INTO image (id , image) VALUES (? ,?)");
-                $id = 1231;
+                $id = (int)$_POST['id'];
 
                 /*** bind the params ***/
                 $stmt->bindParam(1, $id);
