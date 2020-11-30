@@ -15,11 +15,11 @@ $img_res = mysqli_query($conn, $sql2);
 <html>
 <head>
     <meta charset="utf-8">
-    <title>마커 생성하기</title>
+    <title>다대포 공인중개사무소</title>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Anton' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Neucha' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="css/main_map.css">
+    <link rel="stylesheet" type="text/css" href="css/main_map.css?">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 </head>
@@ -28,7 +28,7 @@ $img_res = mysqli_query($conn, $sql2);
     <div class="row header" >
         <p>
             <span class="ui_logo">
-                다대포 공인중개사
+                다대포 공인중개사무소
             </span>
             <a href="login.html" class="ui_login">
                 로그인
@@ -48,43 +48,7 @@ $img_res = mysqli_query($conn, $sql2);
         <div id="detail">
             <div id="wrapper">
                 <div id="slider-wrap">
-                    <!--
-                    <ul id="slider">
 
-                        <li>
-                            <img src="https://fakeimg.pl/350x200/960a96/000?text=11111">
-                        </li>
-
-                        <li>
-                            <img src="https://fakeimg.pl/350x200/D27328/000?text=22222">
-                        </li>
-
-                        <li>
-                            <img src="https://fakeimg.pl/350x200/FF607F/000?text=33333">
-                        </li>
-
-                        <li>
-                            <img src="https://fakeimg.pl/350x200/0A6E0A/000?text=44444">
-                        </li>
-
-                        <li>
-                            <img src="https://fakeimg.pl/350x200/0064CD/000?text=55555">
-                        </li>
-
-
-                    </ul>
-
-
-                    <div class="btns" id="next"><i class="fa fa-arrow-right"></i></div>
-                    <div class="btns" id="previous"><i class="fa fa-arrow-left"></i></div>
-                    <div id="counter"></div>
-
-                    <div id="pagination-wrap">
-                        <ul>
-                        </ul>
-                    </div>
-
-                    -->
                 </div>
 
 
