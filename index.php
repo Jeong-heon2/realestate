@@ -46,16 +46,7 @@ $img_res = mysqli_query($conn, $sql2);
     </div>
     <div class="row map">
         <div id="detail">
-            <div id="wrapper">
-                <div id="slider-wrap">
 
-                </div>
-
-
-            </div>
-            <div id="info">
-
-            </div>
         </div>
         <div id="map"></div>
 
@@ -63,6 +54,13 @@ $img_res = mysqli_query($conn, $sql2);
 
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<?=$appKey?>"></script>
     <script>
+        var autoSlider;
+        //current position
+        var pos = 0;
+        //number of slides
+        var totalSlides;
+        //get the slide width
+        var sliderWidth;
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {
                 center: new kakao.maps.LatLng(35.0510087, 128.9677272), // 지도의 중심좌표
@@ -185,13 +183,15 @@ $img_res = mysqli_query($conn, $sql2);
         // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
         kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
             document.getElementById('detail').style.display = 'none';
-
-
+            if(autoSlider !== undefined){
+                clearInterval(autoSlider);
+            }
         });
         function display_detail(id, price, title, type, direction, dealType, exp, area_m2, area_py){
             document.getElementById('detail').style.display = 'block';
+            clearInterval(autoSlider);
             var getId;
-            $('#slider-wrap *').remove();
+            $('#detail *').remove();
             var img_exist = false;
             var cnt = 0;
             <?php
@@ -201,6 +201,8 @@ $img_res = mysqli_query($conn, $sql2);
                 getId = <?=$hid?>;
                 if(getId == id){
                     if(!img_exist){
+                        $('#detail').append($('<div id="wrapper"></div>'));
+                        $('#wrapper').append($('<div id="slider-wrap"></div>'));
                         var $ul = $("<ul>", {id: "slider"});
                         $("#slider-wrap").append($ul);
                         img_exist = true;
@@ -222,11 +224,11 @@ $img_res = mysqli_query($conn, $sql2);
 
 
                 //current position
-                var pos = 0;
+                pos = 0;
                 //number of slides
-                var totalSlides = $('#slider-wrap ul li').length;
+                totalSlides = $('#slider-wrap ul li').length;
                 //get the slide width
-                var sliderWidth = $('#slider-wrap').width();
+                sliderWidth = $('#slider-wrap').width();
 
                 /*****************
                  BUILD THE SLIDER
@@ -249,8 +251,7 @@ $img_res = mysqli_query($conn, $sql2);
                 /*************************
                  //*> OPTIONAL SETTINGS
                  ************************/
-                    //automatic slider
-                var autoSlider = setInterval(slideRight, 3000);
+                autoSlider = setInterval(slideRight, 3000);
 
                 //for each slide
                 $.each($('#slider-wrap ul li'), function() {
@@ -272,51 +273,10 @@ $img_res = mysqli_query($conn, $sql2);
                     function(){ $(this).addClass('active'); clearInterval(autoSlider); },
                     function(){ $(this).removeClass('active'); autoSlider = setInterval(slideRight, 3000); }
                 );
-                /***********
-                 SLIDE LEFT
-                 ************/
-                function slideLeft(){
-                    pos--;
-                    if(pos==-1){ pos = totalSlides-1; }
-                    $('#slider-wrap ul#slider').css('left', -(sliderWidth*pos));
 
-                    //*> optional
-                    countSlides();
-                    pagination();
-                }
-
-
-                /************
-                 SLIDE RIGHT
-                 *************/
-                function slideRight(){
-                    pos++;
-                    if(pos==totalSlides){ pos = 0; }
-                    $('#slider-wrap ul#slider').css('left', -(sliderWidth*pos));
-
-                    //*> optional
-                    countSlides();
-                    pagination();
-                }
-
-
-
-
-                /************************
-                 //*> OPTIONAL SETTINGS
-                 ************************/
-                function countSlides(){
-                    $('#counter').html(pos+1 + ' / ' + totalSlides);
-                }
-
-                function pagination(){
-                    $('#pagination-wrap ul li').removeClass('active');
-                    $('#pagination-wrap ul li:eq('+pos+')').addClass('active');
-                }
             }
             /*   detail   */
-            $('#info *').remove();
-            //wrap.append($('<div class="btns" id="next"><i class="fa fa-arrow-right"></i></div>'));
+            $('#detail').append($('<div id="info"></div>'));
             //type 12345 아파트 주택 원룸 오피스텔 건물
             if(type == "1"){
                 type = "아파트";
@@ -354,6 +314,48 @@ $img_res = mysqli_query($conn, $sql2);
             $('#info').append($('<div id="inf_title">'+title+'</div>'));
             $('#info').append($('<div id="inf_price">'+price+'</div>'));
             $('#info').append($('<div id="inf_exp">'+exp+'</div>'));
+        }
+
+        /***********
+         SLIDE LEFT
+         ************/
+        function slideLeft(){
+            pos--;
+            if(pos==-1){ pos = totalSlides-1; }
+            $('#slider-wrap ul#slider').css('left', -(sliderWidth*pos));
+
+            //*> optional
+            countSlides();
+            pagination();
+        }
+
+
+        /************
+         SLIDE RIGHT
+         *************/
+        function slideRight(){
+            pos++;
+            if(pos==totalSlides){ pos = 0; }
+            $('#slider-wrap ul#slider').css('left', -(sliderWidth*pos));
+
+            //*> optional
+            countSlides();
+            pagination();
+        }
+
+
+
+
+        /************************
+         //*> OPTIONAL SETTINGS
+         ************************/
+        function countSlides(){
+            $('#counter').html(pos+1 + ' / ' + totalSlides);
+        }
+
+        function pagination(){
+            $('#pagination-wrap ul li').removeClass('active');
+            $('#pagination-wrap ul li:eq('+pos+')').addClass('active');
         }
 
     </script>
