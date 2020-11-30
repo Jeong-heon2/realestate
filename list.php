@@ -29,7 +29,7 @@ $result = mysqli_query($conn,$query);
 	<link rel="stylesheet" href="css/owl.carousel.min.css"/>
 
 	<!-- Main Stylesheets -->
-	<link rel="stylesheet" href="css/style.css"/>
+	<link rel="stylesheet" href="css/list-style.css"/>
 
 
 	<!--[if lt IE 9]>
@@ -39,36 +39,10 @@ $result = mysqli_query($conn,$query);
 
 </head>
 <body>
-	<!-- Page Preloder -->
-	<div id="preloder">
-		<div class="loader"></div>
-	</div>
 
 	<!-- Header section  -->
 	<header class="header-section hs-bd">
-		<a href="list.php" class="site-logo"><img src="img/logo.png" alt="logo"></a>
-		<div class="header-controls">
-			<button class="nav-switch-btn"><i class="fa fa-bars"></i></button>
-			<button class="search-btn"><i class="fa fa-search"></i></button>
-		</div>
-		<ul class="main-menu">
-			<li><a href="list.php">Home</a></li>
-			<li><a href="list.php">About the Artist </a></li>
-			<li>
-				<a href="list.php">Portfolio</a>
-				<ul class="sub-menu">
-					<li><a href="list.php">Portfolio 1</a></li>
-					<li><a href="list.php">Portfolio 2</a></li>
-					<li><a href="list.php">Portfolio 3</a></li>
-				</ul>
-			</li>
-			<li><a href="list.php">Blog</a></li>
-			<li><a href="list.php">Elements</a></li>
-			<li><a href="list.php">Contact</a></li>
-			<li class="search-mobile">
-				<button class="search-btn"><i class="fa fa-search"></i></button>
-			</li>
-		</ul>
+		<a href="list.php" class="site-logo">다대포 공인중개사무소</a>
 	</header>
 	<div class="clearfix"></div>
 	<!-- Header section end  -->
@@ -80,39 +54,76 @@ $result = mysqli_query($conn,$query);
 			<li class="control" data-filter=".monthly">월세</li>
 			<li class="control" data-filter=".jeonse">전세</li>
 			<li class="control" data-filter=".sell">매매</li>
+		</ul>
+		<ul class="portfolio-filter controls text-center">
+			<li class="control" data-filter=".allType">All</li>
+			<li class="control" data-filter=".apartment">아파트</li>
+			<li class="control" data-filter=".house">주택</li>
+			<li class="control" data-filter=".oneRoom">원룸</li>
+			<li class="control" data-filter=".office">오피스텔</li>
+			<li class="control" data-filter=".building">건물</li>
+			<li class="control" data-filter=".east">동향</li>
+			<li class="control" data-filter=".west">서향</li>
+			<li class="control" data-filter=".south">남향</li>
+			<li class="control" data-filter=".north">북향</li>
 		</ul>                                                           
 		<div class="row portfolio-gallery m-0">
 			<?php
 			while($row = mysqli_fetch_array($result)){
 				$image_query = "SELECT image FROM image WHERE id=".$row['id'];
                 $image_result = mysqli_query($conn,$image_query);
-                $image_first = mysqli_fetch_array($image_result);
+				$image_first = mysqli_fetch_array($image_result);
+				$classString = '"mix col-xl-2 col-md-3 col-sm-4 col-6 p-0';
 				switch($row['deal_type']){
 					case 1:
-						?>
-						<div class="mix col-xl-2 col-md-3 col-sm-4 col-6 p-0 monthly">
-							<?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $image_first['image'] ).'" class="portfolio-item img-popup set-bg"/>'; ?>
-							<?php echo $row['title'];?>
-						</div>
-						<?php
+						$classString = $classString.' monthly';
 					break;
 					case 2:
-						?>
-						<div class="mix col-xl-2 col-md-3 col-sm-4 col-6 p-0 jeonse">
-							<?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $image_first['image'] ).'" class="portfolio-item img-popup set-bg"/>'; ?>
-							<?php echo $row['title'];?>
-						</div>
-						<?php
+						$classString = $classString.' jeonse';
 					break;
 					case 3:
-						?>
-						<div class="mix col-xl-2 col-md-3 col-sm-4 col-6 p-0 sell">
-							<?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $image_first['image'] ).'" class="portfolio-item img-popup set-bg"/>'; ?>
-							<?php echo $row['title'];?>
-						</div>
-						<?php
+						$classString = $classString.' sell';
 					break;
 				}
+				$classString = $classString.' allType';
+				switch($row['type']){
+					case 1:
+						$classString = $classString.' apartment';
+					break;
+					case 2:
+						$classString = $classString.' house';
+					break;
+					case 3:
+						$classString = $classString.' oneRoom';
+					break;
+					case 4:
+						$classString = $classString.' office';
+					break;
+					case 5:
+						$classString = $classString.' building';
+					break;
+				}
+				switch($row['direction']){
+					case 1:
+						$classString = $classString.' east';
+					break;
+					case 2:
+						$classString = $classString.' west';
+					break;
+					case 3:
+						$classString = $classString.' south';
+					break;
+					case 4:
+						$classString = $classString.' north';
+					break;
+				}
+				$classString = $classString.' "';
+				?>
+				<div class=<?=$classString?>>
+					<?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $image_first['image'] ).'" class="portfolio-item img-popup set-bg"/>'; ?>
+					<?php echo $row['title'];?>
+				</div>
+				<?php
 			}	
 			?>
 		</div>
@@ -142,7 +153,7 @@ $result = mysqli_query($conn,$query);
 	<script src="js/mixitup.min.js"></script>
 	<script src="js/instafeed.min.js"></script>
 	<script src="js/masonry.pkgd.min.js"></script>
-	<script src="js/main.js"></script>
+	<script src="js/list-main.js"></script>
 
 	</body>
 </html>
