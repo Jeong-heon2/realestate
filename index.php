@@ -19,7 +19,7 @@ $img_res = mysqli_query($conn, $sql2);
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Anton' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Neucha' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="css/main_map.css?">
+    <link rel="stylesheet" type="text/css" href="css/main_map.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 </head>
@@ -53,6 +53,9 @@ $img_res = mysqli_query($conn, $sql2);
 
 
             </div>
+            <div id="info">
+
+            </div>
         </div>
         <div id="map"></div>
 
@@ -74,6 +77,12 @@ $img_res = mysqli_query($conn, $sql2);
         var title;
         var customOverlay;
         var id;
+        var dealType;
+        var type;
+        var direction;
+        var exp;
+        var area_m2;
+        var area_py;
         // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({zIndex:1});
         <?php
@@ -83,13 +92,60 @@ $img_res = mysqli_query($conn, $sql2);
         $longitude = $row['longitude'];
         $price = $row['price'];
         $id = $row['id'];
+        $dealType = $row['deal_type'];
+        $title = $row['title'];
+        $direction = $row['direction'];
+        $exp = $row['explanation'];
+        $exp = str_replace("\r\n", "\\n", $exp);
+        $type = $row['type'];
+        $area_m2 = $row['area_m2'];
+        $area_py = $row['area_py'];
         ?>
-        // 마커가 표시될 위치입니다
+
         lat = <?=$latitude?>;
         long = <?=$longitude?>;
         price = "<?=$price?>";
         id = "<?=$id?>";
+        dealType = "<?=$dealType?>";
+        title = "<?=$title?>";
+        type = "<?=$type?>";
+        direction = "<?=$direction?>";
+        exp = '<?php echo $exp?>';
+        exp = exp.replace(/\n/gi,'\\\\n');
+        area_m2 = "<?=$area_m2?>";
+        area_py = "<?=$area_py?>";
+        // 마커가 표시될 위치입니다
         markerPosition  = new kakao.maps.LatLng(lat, long);
+
+
+        var tmp = parseInt(price);
+        if (tmp/100000000 > 0){
+            //억 이상
+            price = parseInt(tmp/100000000) + " 억 ";
+            tmp = tmp % 100000000;
+            if(tmp/10000000 > 0) {
+                price += parseInt(tmp / 10000000) + " 천만";
+            }
+        }else if (tmp/10000000 > 0){
+            //억 미만 천만 이상
+            price = parseInt(tmp/10000000) + " 천 ";
+            tmp = tmp % 10000000;
+            if(tmp/1000000 > 0) {
+                price += parseInt(tmp / 1000000) + " 백만";
+            }
+        }else{
+            //천만 미만
+            if(tmp/1000000 > 0){
+                price = parseInt(tmp/1000000) + " 백 ";
+                tmp = tmp % 1000000;
+                if(tmp/100000 > 0) {
+                    price += parseInt(tmp / 100000) + " 십만";
+                }
+            }else{
+                price = parseInt(tmp/100000) + " 십만";
+            }
+        }
+
 
         // 마커를 생성합니다
         marker = new kakao.maps.Marker({
@@ -98,8 +154,9 @@ $img_res = mysqli_query($conn, $sql2);
         // 커스텀 오버레이에 표시할 내용입니다
         // HTML 문자열 또는 Dom Element 입니다
         var content = '<div class="customoverlay">' +
-            '  <a onclick="display_detail(\'' + id + '\');"  target="_blank">' +
-            '    <span class="title">'+price+'</span>' +
+            '  <a onclick="display_detail('+ '\'' + id + '\', ' + '\'' + price + '\', '  + '\'' + title + '\', '  + '\'' + type + '\', ' + '\'' + direction + '\', ' + '\'' + dealType + '\', ' + '\'' + exp + '\', ' + '\'' + area_m2 + '\', ' + '\'' + area_py + '\', ' +
+            ');"  target="_blank">' +
+            '     <span class="title">'+price+'</span>' +
             '  </a>' +
             '</div>';
 
@@ -131,7 +188,7 @@ $img_res = mysqli_query($conn, $sql2);
 
 
         });
-        function display_detail(id){
+        function display_detail(id, price, title, type, direction, dealType, exp, area_m2, area_py){
             document.getElementById('detail').style.display = 'block';
             var getId;
             $('#slider-wrap *').remove();
@@ -257,6 +314,46 @@ $img_res = mysqli_query($conn, $sql2);
                     $('#pagination-wrap ul li:eq('+pos+')').addClass('active');
                 }
             }
+            /*   detail   */
+            $('#info *').remove();
+            //wrap.append($('<div class="btns" id="next"><i class="fa fa-arrow-right"></i></div>'));
+            //type 12345 아파트 주택 원룸 오피스텔 건물
+            if(type == "1"){
+                type = "아파트";
+            }else if(type == "2"){
+                type = "주택";
+            }else if(type == "3"){
+                type = "원룸";
+            }else if(type == "4"){
+                type = "오피스텔";
+            }else if(type == "5"){
+                type = "건물";
+            }
+            //direction 1234 동서남북
+            if(direction == "1"){
+                direction = "동향";
+            }else if(direction == "2"){
+                direction = "서향";
+            }else if(direction == "3"){
+                direction = "남향";
+            }else if(direction == "4"){
+                direction = "북향";
+            }
+            //dealtype 123 월전매
+            if(dealType == "1"){
+                dealType = "월세";
+            }else if(dealType == "2"){
+                dealType = "전세";
+            }else if(dealType == "3"){
+                dealType = "매매";
+            }
+            price = dealType + "&nbsp&nbsp&nbsp" + price;
+            exp = exp.replace(/\\n/gi,'<br>');
+
+            $('#info').append($('<div id="inf_type"><span id="type">'+type+'</span><span id="inf_dir">'+ direction+'</span><span id="inf_area">'+area_m2+' m<sup>2</sup> / '+ area_py+ ' 평</span></div>'));
+            $('#info').append($('<div id="inf_title">'+title+'</div>'));
+            $('#info').append($('<div id="inf_price">'+price+'</div>'));
+            $('#info').append($('<div id="inf_exp">'+exp+'</div>'));
         }
 
     </script>

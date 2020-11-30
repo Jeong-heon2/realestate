@@ -17,16 +17,51 @@ $filtered = array(
     'explanation'=>mysqli_real_escape_string($conn, $_POST['explanation']),
     'memo'=>mysqli_real_escape_string($conn, $_POST['memo']),
 );
-if(isset($_FILES)){
-    try{
-        upload();
-    }catch (Exception $e){
-        echo $e->getMessage();
-        echo '<a href="insert.php">돌아가기</a>';
+
+$sql = "
+INSERT INTO house
+(id, title, price, area_m2, area_py, address, address_detail, latitude, longitude,
+direction, deal_type, type, explanation, memo)
+VALUES(
+'{$filtered['id']}',
+'{$filtered['title']}',
+'{$filtered['price']}',
+'{$filtered['area_m2']}',
+'{$filtered['area_py']}',
+'{$filtered['address']}',
+'{$filtered['address_detail']}',
+'{$filtered['latitude']}',
+'{$filtered['longitude']}',
+'{$filtered['direction']}',
+'{$filtered['deal_type']}',
+'{$filtered['type']}',
+'{$filtered['explanation']}',
+'{$filtered['memo']}'
+)
+";
+
+$result = mysqli_query($conn, $sql);
+if($result === false){
+    echo '저장하는 과정에서 문제가 생겼습니다. 관리자에게 문의해주세요';
+    var_dump($filtered['latitude']);
+    error_log(mysqli_error($conn));
+    echo $conn -> error;
+    echo '<a href="insert.php">돌아가기</a>';
+} else {
+
+    if(isset($_FILES)){
+        try{
+            upload();
+        }catch (Exception $e){
+            echo $e->getMessage();
+            echo '<a href="insert.php">돌아가기</a>';
+        }
+
+    }else{
+        echo "no";
     }
 
-}else{
-    echo "no";
+    header('Location: /dadepo/index.php');
 }
 function upload(){
     for($i = 0; $i < count($_FILES['upload']['name']); $i++){
@@ -54,6 +89,7 @@ function upload(){
                 /*** our sql query ***/
                 $stmt = $dbh->prepare("INSERT INTO image (id , image) VALUES (? ,?)");
                 $id = (int)$_POST['id'];
+                var_dump($id);
 
                 /*** bind the params ***/
                 $stmt->bindParam(1, $id);
@@ -72,55 +108,12 @@ function upload(){
         {
             // if the file is not less than the maximum allowed, print an error
             throw new Exception("Unsupported Image Format!");
+            echo '저장하는 과정에서 문제가 생겼습니다. 관리자에게 문의해주세요';
+            error_log(mysqli_error($conn));
+            echo $conn -> error;
+            echo '<a href="insert.php">돌아가기</a>';
         }
     }
-    /*
-    for($i = 0; $i < count($_FILES['upload']['name']); $i++){
 
-        $uploadfile = $_FILES['upload']['name'][$i];
-
-        if(move_uploaded_file($_FILES['upload']['tmp_name'][$i],$uploadfile)){
-            echo "파일이 업로드 되었습니다.<br />";
-            echo "<img src ={$_FILES['upload']['name'][$i]} style='width:100px'> <p>";
-            echo "1. file name : {$_FILES['upload']['name'][$i]}<br />";
-            echo "2. file type : {$_FILES['upload']['type'][$i]}<br />";
-            echo "3. file size : {$_FILES['upload']['size'][$i]} byte <br />";
-            echo "4. temporary file size : {$_FILES['upload']['size'][$i]}<br />";
-        } else {
-            echo "파일 업로드 실패 !! 다시 시도해주세요.<br />";
-        }
-    }*/
-}
-
-$sql = "
-INSERT INTO house
-(id, title, price, area_m2, area_py, address, address_detail, latitude, longitude,
-direction, deal_type, type, explanation, memo)
-VALUES(
-'{$filtered['id']}',
-'{$filtered['title']}',
-'{$filtered['price']}',
-'{$filtered['area_m2']}',
-'{$filtered['area_py']}',
-'{$filtered['address']}',
-'{$filtered['address_detail']}',
-'{$filtered['latitude']}',
-'{$filtered['longitude']}',
-'{$filtered['direction']}',
-'{$filtered['deal_type']}',
-'{$filtered['type']}',
-'{$filtered['explanation']}',
-'{$filtered['memo']}'
-)
-";
-
-$result = mysqli_query($conn, $sql);
-if($result === false){
-    echo '저장하는 과정에서 문제가 생겼습니다. 관리자에게 문의해주세요';
-    error_log(mysqli_error($conn));
-    echo $conn -> error;
-    echo '<a href="insert.php">돌아가기</a>';
-} else {
-    header('Location: /dadepo/index.php');
 }
 ?>

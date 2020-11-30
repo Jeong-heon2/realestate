@@ -1,3 +1,38 @@
+@font-face {
+    font-family: 'Spoqa Han Sans';
+    font-weight: 700;
+    src: local('Spoqa Han Sans Bold'),
+    url('../fonts/SpoqaHanSans/SpoqaHanSansBold.woff2') format('woff2'),
+    url('../fonts/SpoqaHanSans/SpoqaHanSansBold.woff') format('woff'),
+    url('../fonts/SpoqaHanSans/SpoqaHanSansBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Spoqa Han Sans';
+    font-weight: 400;
+    src: local('Spoqa Han Sans Regular'),
+    url('../fonts/SpoqaHanSans/SpoqaHanSansRegular.woff2') format('woff2'),
+    url('../fonts/SpoqaHanSans/SpoqaHanSansRegular.woff') format('woff'),
+    url('../fonts/SpoqaHanSans/SpoqaHanSansRegular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Spoqa Han Sans';
+    font-weight: 300;
+    src: local('Spoqa Han Sans Light'),
+    url('../fonts/SpoqaHanSans/SpoqaHanSansLight.woff2') format('woff2'),
+    url('../fonts/SpoqaHanSans/SpoqaHanSansLight.woff') format('woff'),
+    url('../fonts/SpoqaHanSans/SpoqaHanSansLight.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Spoqa Han Sans';
+    font-weight: 100;
+    src: local('Spoqa Han Sans Thin'),
+    url('../fonts/SpoqaHanSans/SpoqaHanSansThin.woff2') format('woff2'),
+    url('../fonts/SpoqaHanSans/SpoqaHanSansThin.woff') format('woff'),
+    url('../fonts/SpoqaHanSans/SpoqaHanSansThin.ttf') format('truetype');
+}
 
 span.ui_logo{
     position: relative;
@@ -137,6 +172,7 @@ a{text-decoration:none;}
     display:block;
     width:100%;
     height: 100%;
+    border-radius: 10px;
 }
 
 
@@ -235,5 +271,65 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
     -o-transition: all 0.3s cubic-bezier(1,.01,.32,1);
     -ms-transition: all 0.3s cubic-bezier(1,.01,.32,1);
     transition: all 0.3s cubic-bezier(1,.01,.32,1);
+}
+
+
+
+/*detail*/
+#info {
+    position: relative;
+    margin-left:50px;
+    margin-right:50px;
+    font-size: 15px;
+}
+#inf_type{
+    position: relative;
+    
+}
+#type{
+    background: #CDAF84;
+    font-weight: bold;
+    border: 1px solid #CDAF84;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+}
+#inf_dir{
+    position: relative;
+    margin-left: 5px;
+    background: #326CF9;
+    font-weight: bold;
+    border: 1px solid #326CF9;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+}
+#inf_area{
+    position: relative;
+    margin-left: 5px;
+    background: #FF4001;
+    font-weight: bold;
+    border: 1px solid #FF4001;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+}
+#inf_title{
+    position: relative;
+    margin-top: 20px;
+    font-size: 22px;
+    font-weight: bold;
+}
+#inf_price{
+    margin-top: 10px;
+    font-size: 30px;
+    font-weight: 800;
+}
+#inf_exp{
+    font-size: 17px;
+    color: black;
+    margin-top: 10px;
+    color: #666666;
+    line-height: 150%;
 }
 
