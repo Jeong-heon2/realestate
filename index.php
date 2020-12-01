@@ -2,8 +2,6 @@
 session_start();
 header('Content-Type: text/html; charset=utf-8');
 
-
-
 require('connection.php');
 $appKey = file_get_contents("keys/appkey", true);
 
@@ -23,7 +21,7 @@ $img_res = mysqli_query($conn, $sql2);
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Anton' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Neucha' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="css/main_map.css?">
+    <link rel="stylesheet" type="text/css" href="css/main_map.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 </head>
@@ -41,8 +39,8 @@ $img_res = mysqli_query($conn, $sql2);
                 로그인
             </a>
             <?php } else {?>
-                <a style="color: red;" class="ui_login">
-                    관리자로 로그인 하였습니다.
+                <a href="insert.php" style="color: red;" class="ui_login">
+                    매물 등록
                 </a>
             <?php
             } ?>
@@ -106,6 +104,7 @@ $img_res = mysqli_query($conn, $sql2);
         var exp;
         var area_m2;
         var area_py;
+        var memo;
         // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({zIndex:1});
         <?php
@@ -123,6 +122,10 @@ $img_res = mysqli_query($conn, $sql2);
         $type = $row['type'];
         $area_m2 = $row['area_m2'];
         $area_py = $row['area_py'];
+        $memo = "";
+        if(isset($_SESSION['user_id'])){
+            $memo = $row['memo'];
+        }
         ?>
 
         lat = <?=$latitude?>;
@@ -137,6 +140,7 @@ $img_res = mysqli_query($conn, $sql2);
         exp = exp.replace(/\n/gi,'\\\\n');
         area_m2 = "<?=$area_m2?>";
         area_py = "<?=$area_py?>";
+        memo = "<?=$memo?>";
         // 마커가 표시될 위치입니다
         markerPosition  = new kakao.maps.LatLng(lat, long);
 
@@ -171,13 +175,13 @@ $img_res = mysqli_query($conn, $sql2);
 
 
         // 마커를 생성합니다
-        marker = new kakao.maps.Marker({
+        var marker = new kakao.maps.Marker({
             position: markerPosition
         });
         // 커스텀 오버레이에 표시할 내용입니다
         // HTML 문자열 또는 Dom Element 입니다
         var content = '<div class="customoverlay">' +
-            '  <a onclick="display_detail('+ '\'' + id + '\', ' + '\'' + price + '\', '  + '\'' + title + '\', '  + '\'' + type + '\', ' + '\'' + direction + '\', ' + '\'' + dealType + '\', ' + '\'' + exp + '\', ' + '\'' + area_m2 + '\', ' + '\'' + area_py + '\', ' +
+            '  <a onclick="display_detail('+ '\'' + id + '\', ' + '\'' + price + '\', '  + '\'' + title + '\', '  + '\'' + type + '\', ' + '\'' + direction + '\', ' + '\'' + dealType + '\', ' + '\'' + exp + '\', ' + '\'' + area_m2 + '\', ' + '\'' + area_py + '\', ' + '\'' + memo + '\', ' +
             ');"  target="_blank">' +
             '     <span class="title">'+price+'</span>' +
             '  </a>' +
@@ -212,7 +216,7 @@ $img_res = mysqli_query($conn, $sql2);
                 clearInterval(autoSlider);
             }
         });
-        function display_detail(id, price, title, type, direction, dealType, exp, area_m2, area_py){
+        function display_detail(id, price, title, type, direction, dealType, exp, area_m2, area_py, memo){
             document.getElementById('detail').style.display = 'block';
             clearInterval(autoSlider);
             var getId;
@@ -232,7 +236,18 @@ $img_res = mysqli_query($conn, $sql2);
                         $("#slider-wrap").append($ul);
                         img_exist = true;
                     }
-                    $('#slider').append($('<li><img src="imageView.php?image_id=<?php echo $row["image_id"]; ?>"></li>'));
+                    <?php
+
+                    if(isset($_SESSION['user_id'])){?>
+                        $('#slider').append($('<li><img onclick="showConfirm('+ '\'' + <?=$row["image_id"]?> + '\');" src="imageView.php?image_id=<?php echo $row["image_id"]; ?>"></li>'));
+                    <?php
+                    } else {
+                    ?>
+                        $('#slider').append($('<li><img src="imageView.php?image_id=<?php echo $row["image_id"]; ?>"></li>'));
+                    <?php
+                    }
+                    ?>
+
                     cnt++;
                 }
 
@@ -339,6 +354,15 @@ $img_res = mysqli_query($conn, $sql2);
             $('#info').append($('<div id="inf_title">'+title+'</div>'));
             $('#info').append($('<div id="inf_price">'+price+'</div>'));
             $('#info').append($('<div id="inf_exp">'+exp+'</div>'));
+
+            <?php if(isset($_SESSION['user_id'])){ ?>
+                $('#info').append($('<div id="dot_line"></div>'));
+                $('#info').append($('<div id="inf_memo">'+memo+'</div>'));
+                $('#info').append($('<div id="inf_edit"><button id="btn_edit" onclick="move_edit('+'\'' + id +'\'' +');">수정하기</button><button id="btn_delete" onclick="confirmDelete('+'\'' + id +'\'' +');">매물 삭제</button> </div>'));
+            <?php }?>
+        }
+        function move_edit(id){
+            location.href = "edit.php?id=" + id;
         }
 
         /***********
@@ -383,6 +407,18 @@ $img_res = mysqli_query($conn, $sql2);
             $('#pagination-wrap ul li:eq('+pos+')').addClass('active');
         }
 
+        function showConfirm(imgId){
+            var result = confirm("해당 이미지를 정말 삭제하시겠습니까??");
+            if(result){
+                location.href = "process_imgdelete.php?imgId=" + imgId;
+            }
+        }
+        function confirmDelete(id){
+            var result = confirm("해당 매물을 정말 삭제하시겠습니까??");
+            if(result){
+                location.href = "process_delete.php?id=" + id;
+            }
+        }
     </script>
 </div>
 

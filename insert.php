@@ -1,4 +1,11 @@
 <?php
+session_start();
+if(!isset($_SESSION['user_id'])) {
+    header("Content-Type: text/html; charset=UTF-8");
+    echo "<script>alert('잘못된 접근입니다. ')";
+    echo "window.location.replace('login.php');</script>";
+    exit;
+}
 $appKey = file_get_contents("keys/appkey", true)
 ?>
 
@@ -7,7 +14,6 @@ $appKey = file_get_contents("keys/appkey", true)
 <head>
     <meta charset="utf-8">
     <title>매물 등록</title>
-
 
     <link rel="stylesheet" type="text/css" href="css/insert_form.css">
 
@@ -18,7 +24,7 @@ $appKey = file_get_contents("keys/appkey", true)
 
 <div id="map" style="width:100%;height:350px;"></div>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<?=$appKey?>&libraries=services"></script>
-<script type="text/javascript" src="js/insert_map.js"></script>
+<script type="text/javascript" src="js/insert_map.js?"></script>
 
 <form action="process_insert.php" method="post" enctype="multipart/form-data">
     <div id="form-div">
@@ -55,14 +61,15 @@ $appKey = file_get_contents("keys/appkey", true)
                     // 주소-좌표 변환 객체를 생성합니다
                     var geocoder = new kakao.maps.services.Geocoder();
                     geocoder.addressSearch(val, function(result, status) {
-
                         // 정상적으로 검색이 완료됐으면
                         if (status === kakao.maps.services.Status.OK) {
-
+                            if(marker !== undefined ){
+                                marker.setMap(null);
+                            }
                             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
                             // 결과값으로 받은 위치를 마커로 표시합니다
-                            var marker = new kakao.maps.Marker({
+                            marker = new kakao.maps.Marker({
                                 map: map,
                                 position: coords
                             });

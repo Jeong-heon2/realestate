@@ -1,6 +1,14 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
+session_start();
+if(!isset($_SESSION['user_id'])) {
+    header("Content-Type: text/html; charset=UTF-8");
+    echo "<script>alert('세션이 만료되었습니다. 다시 로그인 해주세요');";
+    echo "window.location.replace('login.php');</script>";
+    exit;
+}
 require('connection.php');
+$old_id = $_POST['old_id'];
 $filtered = array(
     'title'=>mysqli_real_escape_string($conn, $_POST['title']),
     'id'=>mysqli_real_escape_string($conn, $_POST['id']),
@@ -17,28 +25,13 @@ $filtered = array(
     'explanation'=>mysqli_real_escape_string($conn, $_POST['explanation']),
     'memo'=>mysqli_real_escape_string($conn, $_POST['memo']),
 );
-
-$sql = "
-INSERT INTO house
-(id, title, price, area_m2, area_py, address, address_detail, latitude, longitude,
-direction, deal_type, type, explanation, memo)
-VALUES(
-'{$filtered['id']}',
-'{$filtered['title']}',
-'{$filtered['price']}',
-'{$filtered['area_m2']}',
-'{$filtered['area_py']}',
-'{$filtered['address']}',
-'{$filtered['address_detail']}',
-'{$filtered['latitude']}',
-'{$filtered['longitude']}',
-'{$filtered['direction']}',
-'{$filtered['deal_type']}',
-'{$filtered['type']}',
-'{$filtered['explanation']}',
-'{$filtered['memo']}'
-)
-";
+$dot = "'";
+$sql = "update house set title = ".$dot.$filtered['title'].$dot.", id = ".$filtered['id'].", price = ".$filtered['price'].", area_m2 = ".$filtered['area_m2'].
+", area_py = ".$filtered['area_py'].", address = ".$dot.$filtered['address'].$dot.", address_detail = ".$dot.$filtered['address_detail'].$dot.
+    ", latitude = ".$filtered['latitude'].", longitude = ".$filtered['longitude'].", direction = ".$filtered['direction'].", deal_type = ".$filtered['deal_type'].
+    ", type = ".$filtered['type'].", explanation = ".$dot.$filtered['explanation'].$dot.", memo = ".$dot.$filtered['memo'].$dot.
+    "where id = ".$old_id;
+;
 
 $result = mysqli_query($conn, $sql);
 if($result === false){
@@ -115,4 +108,5 @@ function upload(){
     }
 
 }
+
 ?>
