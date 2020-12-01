@@ -37,6 +37,8 @@
 span.ui_logo{
     position: relative;
     left: 20px;
+    font-weight: 800;
+    color: #326CF9;
 }
 a.ui_login{
     position: absolute;
@@ -59,6 +61,7 @@ a.ui_login{
     background: white;
     display: none;
     border-right: 1px solid #d3d3d3;
+    box-shadow: 1px 0px 2px #bbbabb;
 }
 html,
 body {
@@ -88,11 +91,14 @@ body {
 }
 .box .row.header2{
     flex: 0 1 50px;
+    box-shadow:0px 1px 3px #bbb4bb;
+    z-index: 3;
 }
 
 .box .row.map {
     position: relative;
     flex: 1 1 auto;
+    z-index: 1;
 }
 span.search_section{
     position: absolute;

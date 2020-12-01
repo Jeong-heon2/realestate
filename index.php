@@ -1,5 +1,9 @@
 <?php
+session_start();
 header('Content-Type: text/html; charset=utf-8');
+
+
+
 require('connection.php');
 $appKey = file_get_contents("keys/appkey", true);
 
@@ -19,20 +23,29 @@ $img_res = mysqli_query($conn, $sql2);
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Anton' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Neucha' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="css/main_map.css">
+    <link rel="stylesheet" type="text/css" href="css/main_map.css?">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 </head>
 <body >
+
+
 <div class="box">
     <div class="row header" >
         <p>
             <span class="ui_logo">
                 다대포 공인중개사무소
             </span>
-            <a href="login.html" class="ui_login">
+            <?php if(!isset($_SESSION['user_id'])) {?>
+            <a href="login.php" class="ui_login">
                 로그인
             </a>
+            <?php } else {?>
+                <a style="color: red;" class="ui_login">
+                    관리자로 로그인 하였습니다.
+                </a>
+            <?php
+            } ?>
         </p>
 
     </div>
@@ -68,6 +81,18 @@ $img_res = mysqli_query($conn, $sql2);
             };
 
         var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+        // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+        var mapTypeControl = new kakao.maps.MapTypeControl();
+
+        // 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+        // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+        map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+        // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+        var zoomControl = new kakao.maps.ZoomControl();
+        map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
         var lat;
         var long;
         var markerPosition;
