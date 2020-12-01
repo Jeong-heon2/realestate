@@ -1,11 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
 require('connection.php');
-/*settype($_POST['id'],'integer');
-settype($_POST['direction'], 'integer');
-settype($_POST['deal_type'], 'integer');
-settype($_POST['type'], 'integer');
-var_dump($_POST['direction']);*/
 $filtered = array(
     'title'=>mysqli_real_escape_string($conn, $_POST['title']),
     'id'=>mysqli_real_escape_string($conn, $_POST['id']),
@@ -21,8 +16,8 @@ $filtered = array(
     'type'=>mysqli_real_escape_string($conn, $_POST['type']),
     'explanation'=>mysqli_real_escape_string($conn, $_POST['explanation']),
     'memo'=>mysqli_real_escape_string($conn, $_POST['memo']),
-
 );
+
 $sql = "
 INSERT INTO house
 (id, title, price, area_m2, area_py, address, address_detail, latitude, longitude,
@@ -48,10 +43,77 @@ VALUES(
 $result = mysqli_query($conn, $sql);
 if($result === false){
     echo '저장하는 과정에서 문제가 생겼습니다. 관리자에게 문의해주세요';
+    var_dump($filtered['latitude']);
     error_log(mysqli_error($conn));
     echo $conn -> error;
-    echo '<a href="index.php">돌아가기</a>';
+    echo '<a href="insert.php">돌아가기</a>';
 } else {
+
+    if(isset($_FILES)){
+        try{
+            upload();
+        }catch (Exception $e){
+            echo $e->getMessage();
+            echo '<a href="insert.php">돌아가기</a>';
+        }
+
+    }else{
+        echo "no";
+    }
+
     header('Location: /dadepo/index.php');
+}
+function upload(){
+    for($i = 0; $i < count($_FILES['upload']['name']); $i++){
+        /*** check if a file was uploaded ***/
+        if(is_uploaded_file($_FILES['upload']['tmp_name'][$i]) && getimagesize($_FILES['upload']['tmp_name'][$i]) != false)
+        {
+            /***  get the image info. ***/
+            $size = getimagesize($_FILES['upload']['tmp_name'][$i]);
+            /*** assign our variables ***/
+            $type = $size['mime'][$i];
+            $imgfp = fopen($_FILES['upload']['tmp_name'][$i], 'rb');
+            $size = $size[3];
+            $name = $_FILES['upload']['name'][$i];
+            $maxsize = 99999999;
+
+            /***  check the file is less than the maximum file size ***/
+            if($_FILES['upload']['size'][$i] < $maxsize )
+            {
+                /*** connect to db ***/
+                $dbh = new PDO("mysql:host=localhost;dbname=dadepo", 'root', '111111');
+
+                /*** set the error mode ***/
+                $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                /*** our sql query ***/
+                $stmt = $dbh->prepare("INSERT INTO image (id , image) VALUES (? ,?)");
+                $id = (int)$_POST['id'];
+                var_dump($id);
+
+                /*** bind the params ***/
+                $stmt->bindParam(1, $id);
+                $stmt->bindParam(2, $imgfp, PDO::PARAM_LOB);
+
+                /*** execute the query ***/
+                $stmt->execute();
+            }
+            else
+            {
+                /*** throw an exception is image is not of type ***/
+                throw new Exception("File Size Error");
+            }
+        }
+        else
+        {
+            // if the file is not less than the maximum allowed, print an error
+            throw new Exception("Unsupported Image Format!");
+            echo '저장하는 과정에서 문제가 생겼습니다. 관리자에게 문의해주세요';
+            error_log(mysqli_error($conn));
+            echo $conn -> error;
+            echo '<a href="insert.php">돌아가기</a>';
+        }
+    }
+
 }
 ?>
