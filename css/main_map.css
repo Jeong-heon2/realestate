@@ -107,10 +107,15 @@ span.search_section{
     line-height: 50px;
     vertical-align: middle;
     padding-left: 20px;
-    padding-right: 20px;;
+    padding-right: 20px;
+    display: inline-block;
 }
 input.search{
-    font-size: 15px;
+    font-size: 20px;
+    width:180px;
+    border:none;
+    outline: none;
+    margin-left: 10px;
 }
 
 
@@ -362,4 +367,39 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
 #dot_line{
     margin-top: 15px;
     border-bottom: 1px dotted #666666;
+}
+.btn_select{
+    padding: 5px 8px;
+    background: #326CF9;
+    border: 1px solid #326CF9;
+    color: white;
+    border-radius: 15px;
+    outline: none;
+}
+.btn_select_all{
+    padding: 5px 8px;
+    background: #ffffff;
+    border: 1px solid darkgray;
+    color: black;
+    border-radius: 15px;
+    outline: none;
+    margin-right: 20px;
+}
+
+.btn_search{
+    position: relative;
+    background: url( "/dadepo/images/search.svg" ) no-repeat;
+    border: none;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    top: 3px;
+    outline: none;
+    margin-right: 50px;
+}
+#btn_ju{
+    margin-right: 15px;
+}
+#btn_north{
+    margin-right: 15px;
 }
