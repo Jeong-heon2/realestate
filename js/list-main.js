@@ -65,6 +65,9 @@ $(window).on('load', function() {
 	if($('.portfolio-gallery').length > 0 ) {
 		var containerEl = document.querySelector('.portfolio-gallery');
 		var mixer = mixitup(containerEl, {
+			multifilter: {
+				enable: true 
+			},
 			callbacks: {
 				onMixEnd: function() {
 					masonryLayout();
@@ -174,10 +177,9 @@ $(window).on('load', function() {
 	/*------------------
 		Image Popup
 	--------------------*/
-	$('.img-popup').magnificPopup({
-		type: 'image',
-		mainClass: 'img-popup-warp',
-		removalDelay: 500,
+	$('.popup').magnificPopup({
+		type:'inline',
+		midClick: true
 	});
 	
 
@@ -259,5 +261,5 @@ $(window).on('load', function() {
 	if($('#instafeed').length > 0) {
 		userFeed.run();
 	}
-	
+
 })(jQuery);

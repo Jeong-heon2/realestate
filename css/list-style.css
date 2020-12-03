@@ -832,16 +832,16 @@ ol {
 ---------------------*/
 
 .portfolio-section {
-	padding-top: 120px;
+	padding-top: 10px;
 }
 
 .portfolio-filter {
 	list-style: none;
-	margin-bottom: 46px;
+	margin-bottom: 20px;
 	padding: 0 15px;
 }
 
-.portfolio-filter li {
+.portfolio-filter input {
 	display: inline-block;
 	font-size: 14px;
 	color: #212121;
@@ -854,9 +854,63 @@ ol {
 .portfolio-filter li:last-child {
 	margin-right: 0;
 }
+.row {
+    border-bottom: 1px solid #d3d3d3;
+}
+
+.row.header {
+    flex: 0 1 auto;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    /* The above is shorthand for:
+    flex-grow: 0,
+    flex-shrink: 1,
+    flex-basis: auto
+    */
+}
+
+.header2{
+	padding-top: 10px;
+    flex: 0 1 50px;
+    box-shadow:0px 1px 3px #bbb4bb;
+    z-index: 3;
+}
+
+span.ui_logo{
+    position: relative;
+    left: 20px;
+    font-weight: 800;
+    color: #326CF9;
+}
+a.ui_login{
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
+}
+
+input.search{
+    font-size: 20px;
+    width:180px;
+    border:none;
+    outline: none;
+    margin-left: 10px;
+}
+
+.btn_search{
+    position: relative;
+    background: url( "/images/search.svg" ) no-repeat;
+    border: none;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    top: 3px;
+    outline: none;
+    margin-right: 50px;
+}
 
 .portfolio-item {
-	min-height: 100%;
+	padding: 10px;
+	min-height: 50%;
 	display: block;
 }
 
@@ -1374,4 +1428,176 @@ ol {
 	.map {
 		height: 400px;
 	}
+}
+
+#inf_type{
+    position: relative;
+    padding-left: 10px;
+}
+#inf_dealType{
+	font-size: 2px;
+    background: #d469ab;
+    font-weight: bold;
+    border: 1px solid #d469ab;
+    color: white;
+    border-radius: 5px;
+	padding: 2px;
+	margin-left: 5px;
+}
+#type{
+	font-size: 2px;
+	position: relative;
+    background: #CDAF84;
+    font-weight: bold;
+    border: 1px solid #CDAF84;
+    color: white;
+    border-radius: 5px;
+	padding: 2px;
+	margin-left: 5px;
+}
+#inf_dir{
+	font-size: 2px;
+    position: relative;
+    margin-left: 5px;
+    background: #326CF9;
+    font-weight: bold;
+    border: 1px solid #326CF9;
+    color: white;
+    border-radius: 5px;
+    padding: 2px;
+}
+#inf_area{
+	font-size: 2px;
+    position: relative;
+    margin-left: 5px;
+    background: #FF4001;
+    font-weight: bold;
+    border: 1px solid #FF4001;
+    color: white;
+    border-radius: 5px;
+    padding: 2px;
+}
+#inf_title{
+	position: relative;
+	padding-left: 10px;
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: bold;
+}
+#inf_price{
+	padding-left: 10px;
+    margin-top: 5px;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.white-popup {
+	position: relative;
+	background: #FFF;
+	padding: 20px;
+	width: auto;
+	max-width: 600px;
+	margin: 20px auto;
+}
+
+#popup-header{
+	position: relative;
+	border-bottom: 1px solid rgb(187, 183, 183);
+}
+
+#popup-title{
+	padding: 10px;
+	font-family: 'Spoqa Han Sans';
+	font-weight: bold;
+	font-size: 24px;
+	width: 80%;
+}
+
+#popup-id{
+	padding: 10px;
+	font-family: 'Spoqa Han Sans';
+	font-weight: 300;
+	font-size: 12px;
+	width: 20%;
+}
+
+#popup-deal{
+	position: relative;
+	border-bottom: 1px solid rgb(187, 183, 183);
+}
+
+#popup-type{
+	padding: 10px;
+	font-family: 'Spoqa Han Sans';
+	font-weight: 700;
+	font-size: 15px;
+}
+
+#popup-dealType{
+	padding: 10px;
+	font-family: 'Spoqa Han Sans';
+	font-weight: 700;
+	font-size: 15px;
+}
+
+#popup-price{
+	padding: 10px;
+	font-family: 'Spoqa Han Sans';
+	font-weight: 700;
+	font-size: 15px;
+}
+
+#popup-detail{
+	position: relative;
+	border-bottom: 1px solid rgb(187, 183, 183);
+}
+
+#popup-address{
+	padding: 10px;
+	font-family: 'Spoqa Han Sans';
+	font-weight: 700;
+	font-size: 15px;
+}
+
+#popup-area{
+	padding: 10px;
+	font-family: 'Spoqa Han Sans';
+	font-weight: 700;
+	font-size: 15px;
+}
+
+#popup-dir{
+	padding: 10px;
+	font-family: 'Spoqa Han Sans';
+	font-weight: 700;
+	font-size: 15px;
+}
+
+#popup-exp{
+	position: relative;
+	border-bottom: 1px solid rgb(187, 183, 183);
+}
+
+#popup-explan{
+	padding: 10px;
+	font-family: 'Spoqa Han Sans';
+	font-weight: 700;
+	font-size: 15px;
+}
+
+#popup-memo{
+	position: relative;
+	border-bottom: 1px solid rgb(187, 183, 183);
+}
+
+#popup-memo2{
+	padding: 10px;
+	font-family: 'Spoqa Han Sans';
+	font-weight: 700;
+	font-size: 15px;
+}
+
+#line-div{
+	border-bottom: 1px solid rgb(187, 183, 183);
+	height: 5px;
 }
