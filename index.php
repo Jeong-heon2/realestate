@@ -21,10 +21,10 @@ $img_res = mysqli_query($conn, $sql2);
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Anton' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Neucha' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="css/main_map.css">
+    <link rel="stylesheet" type="text/css" href="css/main_map.css??">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/house.js"></script>
-    <script type="text/javascript" src="js/select_btn.js?"></script>
+    <script type="text/javascript" src="js/select_btn.js"></script>
 </head>
 <body >
 
@@ -33,7 +33,7 @@ $img_res = mysqli_query($conn, $sql2);
     <div class="row header" >
         <p>
             <span class="ui_logo">
-                다대포 공인중개사무소
+                다대포 공인중개사무소&nbsp&nbsp051-266-7333
                 <input type="text" placeholder="검색어 입력" class="search" id="input_search">
                 <input type="button" class="btn_search" onclick="btnSearch();">
             </span>
@@ -71,7 +71,11 @@ $img_res = mysqli_query($conn, $sql2);
             <button class="btn_select" id="btn_jeon" aria-pressed="true" onclick="btnSelect(this,3);">전세</button>
             <button class="btn_select" id="btn_wol" aria-pressed="true" onclick="btnSelect(this,3);">월세</button>
 
+            <span id="res_search"></span>
+
+
         </span>
+        <img id="img_list" src="images/list.svg" onclick="goListPage();">
     </div>
     <div class="row map">
         <div id="detail">
@@ -202,7 +206,7 @@ $img_res = mysqli_query($conn, $sql2);
         // 커스텀 오버레이에 표시할 내용입니다
         // HTML 문자열 또는 Dom Element 입니다
         var content = '<div class="customoverlay">' +
-            '  <a onclick="display_detail('+ '\'' + id + '\', ' + '\'' + price + '\', '  + '\'' + title + '\', '  + '\'' + type + '\', ' + '\'' + direction + '\', ' + '\'' + dealType + '\', ' + '\'' + exp + '\', ' + '\'' + area_m2 + '\', ' + '\'' + area_py + '\', ' + '\'' + memo + '\', ' +
+            '  <a onclick="display_detail('+ '\'' + id + '\', ' + '\'' + price + '\', '  + '\'' + title + '\', '  + '\'' + type + '\', ' + '\'' + direction + '\', ' + '\'' + dealType + '\', ' + '\'' + exp + '\', ' + '\'' + area_m2 + '\', ' + '\'' + area_py + '\', ' + '\'' + memo + '\', ' + '\'' + lat + '\', ' + '\'' + long + '\'' +
             ');"  target="_blank">' +
             '     <span class="title">'+price+'</span>' +
             '  </a>' +
@@ -234,7 +238,7 @@ $img_res = mysqli_query($conn, $sql2);
                 clearInterval(autoSlider);
             }
         });
-        function display_detail(id, price, title, type, direction, dealType, exp, area_m2, area_py, memo){
+        function display_detail(id, price, title, type, direction, dealType, exp, area_m2, area_py, memo, lat, long){
             document.getElementById('detail').style.display = 'block';
             clearInterval(autoSlider);
             var getId;
@@ -368,7 +372,7 @@ $img_res = mysqli_query($conn, $sql2);
             price = dealType + "&nbsp&nbsp&nbsp" + price;
             exp = exp.replace(/\\n/gi,'<br>');
 
-            $('#info').append($('<div id="inf_type"><span id="type">'+type+'</span><span id="inf_dir">'+ direction+'</span><span id="inf_area">'+area_m2+' m<sup>2</sup> / '+ area_py+ ' 평</span></div>'));
+            $('#info').append($('<div id="inf_type"><span id="type">'+type+'</span><span id="inf_dir">'+ direction+'</span><span id="inf_area">'+area_m2+' m<sup>2</sup> / '+ area_py+ ' 평</span><img id="img_find_load" src="images/find_load.svg" onclick="goLoadPage('+'\'' + title +'\','+'\'' + lat +'\',' +'\'' + long +'\''+')" </div>'));
             $('#info').append($('<div id="inf_title">'+title+'</div>'));
             $('#info').append($('<div id="inf_price">'+price+'</div>'));
             $('#info').append($('<div id="inf_exp">'+exp+'</div>'));
@@ -437,6 +441,9 @@ $img_res = mysqli_query($conn, $sql2);
             if(result){
                 location.href = "process_delete.php?id=" + id;
             }
+        }
+        function goLoadPage(title, lat, long){
+            location.href = "https://map.kakao.com/link/to/"+title+","+lat+"," +long;
         }
     </script>
 </div>

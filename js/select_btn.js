@@ -5,6 +5,8 @@ function btnSelect(btn,group){
     }else {
         btnSelectOk(btn);
     }
+    let res_search = document.getElementById("res_search");
+    res_search.innerText = "";
 }
 function btnSelectOk(btn){
     btn.setAttribute("aria-pressed", "true");
@@ -70,13 +72,20 @@ function btnSelectAll(){
     for (var i = 0 ; i < houses.length; i++){
         houses[i].displayItems();
     }
+    let res_search = document.getElementById("res_search");
+    res_search.innerText = "";
 }
 function btnSearch(){
     btnSelectAll();
     var input_search = document.getElementById("input_search");
     var line = input_search.value;
-    for (var i = 0 ; i < houses.length; i++){
+    for (var i = 0 ; i < houses.length; i++) {
         houses[i].house_search(line);
     }
+    let res_search = document.getElementById("res_search");
+    res_search.innerText =  '"' + line + '"' + " (으)로 검색한 결과";
     input_search.value = "";
+}
+function goListPage(){
+    location.href = "list.php";
 }
