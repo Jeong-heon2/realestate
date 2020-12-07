@@ -403,3 +403,22 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
 #btn_north{
     margin-right: 15px;
 }
+#res_search{
+    margin-left: 20px;
+    border-bottom: 1px solid black;
+}
+#img_list{
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
+    width: 25px;
+    height: 25px;
+    margin-top: 13px;
+}
+#img_find_load{
+    position: absolute;
+    right: 0;
+    width: 31px;
+    height: 31px;
+
+}
