@@ -859,7 +859,7 @@ ol {
 }
 
 .row.header {
-    flex: 0 1 auto;
+	height: 70px;
     padding-bottom: 20px;
     padding-top: 20px;
     /* The above is shorthand for:
@@ -878,7 +878,14 @@ ol {
 
 span.ui_logo{
     position: relative;
-    left: 20px;
+    left: 40px;
+    font-weight: 800;
+    color: #326CF9;
+}
+
+a.ui_map{
+	position: relative;
+    left: 100px;
     font-weight: 800;
     color: #326CF9;
 }
@@ -1435,7 +1442,7 @@ input.search{
     padding-left: 10px;
 }
 #inf_dealType{
-	font-size: 2px;
+	font-size: 6px;
     background: #d469ab;
     font-weight: bold;
     border: 1px solid #d469ab;
@@ -1445,7 +1452,7 @@ input.search{
 	margin-left: 5px;
 }
 #type{
-	font-size: 2px;
+	font-size: 6px;
 	position: relative;
     background: #CDAF84;
     font-weight: bold;
@@ -1456,7 +1463,7 @@ input.search{
 	margin-left: 5px;
 }
 #inf_dir{
-	font-size: 2px;
+	font-size: 6px;
     position: relative;
     margin-left: 5px;
     background: #326CF9;
@@ -1467,7 +1474,7 @@ input.search{
     padding: 2px;
 }
 #inf_area{
-	font-size: 2px;
+	font-size: 6px;
     position: relative;
     margin-left: 5px;
     background: #FF4001;

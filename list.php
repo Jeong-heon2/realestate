@@ -12,15 +12,11 @@ $result = mysqli_query($conn,$query);
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-	<title>매물 리스트</title>
+	<title>다대포 공인중개사무소</title>
 	<meta charset="UTF-8">
-	
-	<!-- Favicon -->
-	<link href="img/favicon.ico" rel="shortcut icon"/>
-
-	<!-- Google font -->
-	<link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap" rel="stylesheet">
-
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href='https://fonts.googleapis.com/css?family=Anton' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Neucha' rel='stylesheet' type='text/css'>
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="css/bootstrap.min.css"/>
 	<link rel="stylesheet" href="css/font-awesome.min.css"/>
@@ -32,13 +28,17 @@ $result = mysqli_query($conn,$query);
 	<link rel="stylesheet" href="css/list-style.css"/>
 </head>
 <body>
-
+<div class="box">
 	<!-- Header section  -->
 	<div class="row header" >
         <p>
             <span class="ui_logo">
-                다대포 공인중개사무소
-            </span>
+				다대포 공인중개사무소&nbsp&nbsp051-266-7333
+			</span>
+			
+			<a href="index.php" class="ui_map">
+				지도로 돌아가기
+			</a>
 
             <?php if(!isset($_SESSION['user_id'])) {?>
             <a href="login.php" class="ui_login">
@@ -336,4 +336,5 @@ $result = mysqli_query($conn,$query);
 	<script src="js/list-main.js"></script>
 
 	</body>
+</div>
 </html>
