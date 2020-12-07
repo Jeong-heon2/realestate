@@ -885,7 +885,7 @@ span.ui_logo{
 
 a.ui_map{
 	position: relative;
-    left: 100px;
+    left: 200px;
     font-weight: 800;
     color: #326CF9;
 }
@@ -1438,11 +1438,11 @@ input.search{
 }
 
 #inf_type{
+	font-size: 12px;
     position: relative;
     padding-left: 10px;
 }
 #inf_dealType{
-	font-size: 6px;
     background: #d469ab;
     font-weight: bold;
     border: 1px solid #d469ab;
@@ -1452,7 +1452,6 @@ input.search{
 	margin-left: 5px;
 }
 #type{
-	font-size: 6px;
 	position: relative;
     background: #CDAF84;
     font-weight: bold;
@@ -1463,7 +1462,6 @@ input.search{
 	margin-left: 5px;
 }
 #inf_dir{
-	font-size: 6px;
     position: relative;
     margin-left: 5px;
     background: #326CF9;
@@ -1474,7 +1472,6 @@ input.search{
     padding: 2px;
 }
 #inf_area{
-	font-size: 6px;
     position: relative;
     margin-left: 5px;
     background: #FF4001;
